@@ -6,8 +6,7 @@ import requests
 
 load_dotenv()  # Load environment variables from .env file
 
-# API_KEY = os.getenv('API_KEY')  # Get API key from environment variable
-API_KEY = 'DQL51N03JZSHXA6Z'
+API_KEY = os.getenv('API_KEY')  # Get API key from environment variable
 app = Flask(__name__)
 # Allow CORS so that frontend can access backend served from different domains.
 CORS(app, resources={r'/*': {'origins': '*'}})
