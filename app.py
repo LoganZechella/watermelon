@@ -1,19 +1,18 @@
 from flask import Flask, jsonify
+from flask_cors import CORS, cross_origin
 import os
 from dotenv import load_dotenv
 import requests
 
-app = Flask(__name__)
-
 load_dotenv()  # Load environment variables from .env file
-
-app = Flask(__name__)
 
 API_KEY = os.getenv('API_KEY')  # Get API key from environment variable
 
+app = Flask(__name__)
+CORS(app)  # Allow CORS so that frontend can access backend served from different domains.
+
 def get_stock_price(symbol, date=None):
     """Fetch stock price for a given symbol and date from Alpha Vantage."""
-    # For current price, use 'GLOBAL_QUOTE', for historical data, use 'TIME_SERIES_DAILY'
     if date:
         endpoint = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={API_KEY}'
         response = requests.get(endpoint)
@@ -29,12 +28,8 @@ def get_stock_price(symbol, date=None):
 
     return float(price)
 
-
-def get_stock_data(symbol, date):
-    # Function to get stock data from an API
-    return requests.get(f"https://api.example.com/stock/{symbol}/price?date={date}&apikey={API_KEY}")
-
 @app.route('/stock_data/<company_name>')
+@cross_origin()  # This enables CORS specifically for this route
 def stock_data(company_name):
     # Map company names to their stock symbols
     company_symbols = {
@@ -67,4 +62,4 @@ def stock_data(company_name):
     })
 
 if __name__ == '__main__':
-    app.run(port=3000,debug=True)
+    app.run(debug=True)
