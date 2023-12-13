@@ -1,9 +1,8 @@
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     const companies = ["starbucks", "mcdonalds", "disney", "wendys", "sodastream", "cocacola", "pepsi", "sabra"];
 
-    function updateTile(company, data) {
-        console.log(`Data for ${company}:`, data); // For debugging
+    async function updateTile(company, data) {
         const tile = document.getElementById(company);
         const loadingIndicator = tile.querySelector('.loading');
         const errorIndicator = tile.querySelector('.error');
@@ -24,18 +23,21 @@ document.addEventListener('DOMContentLoaded', function () {
         loadingIndicator.style.display = 'none';
     }
 
-    function fetchData(company) {
-        fetch(`http://localhost:5000/stock_data/${company}`)
-            .then(response => response.json())
-            .then(data => updateTile(company, data))
-            .catch(error => {
-                const tile = document.getElementById(company);
-                tile.querySelector('.error').textContent = 'Failed to load data';
-                tile.querySelector('.loading').style.display = 'none';
-            });
+    async function fetchData(company) {
+        try {
+            const response = await fetch(`http://127.0.0.1:5000/stock_data/${company}`);
+            const data = await response.json();
+            await updateTile(company, data);
+            console.log(`Data for ${company}:`, data); // For debugging
+        } catch (error) {
+            const tile = document.getElementById(company);
+            tile.querySelector('.error').textContent = 'Failed to load data';
+            tile.querySelector('.loading').style.display = 'none';
+        }
     }
 
-    companies.forEach(company => {
-        fetchData(company);
-    });
+    for (const company of companies) {
+        await fetchData(company);
+        
+    }
 });
