@@ -1,6 +1,6 @@
 
 document.addEventListener('DOMContentLoaded', async function () {
-    const companies = ["starbucks", "mcdonalds", "disney", "wendys", "sodastream", "cocacola", "pepsi", "sabra"];
+    const companies = ["starbucks", "mcdonalds", "disney", "cocacola", "pepsi", "sabra"];
 
     async function updateTile(company, data) {
         const tile = document.getElementById(company);
@@ -16,8 +16,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         tile.innerHTML += `
             <h2>${data.company_name}</h2>
             <p>Current Price: $${data.current_price}</p>
-            <p>Price on Oct 6, 2023: $${data.historical_price}</p>
+            <p>Historical Price (Oct 6, 2023): $${data.historical_price}</p>
             <p>Price Difference: $${data.price_difference}</p>
+            <p>Market Cap (Oct 6, 2023): ${data.market_cap}</p>
         `;
 
         loadingIndicator.style.display = 'none';
