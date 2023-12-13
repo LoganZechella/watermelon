@@ -1,15 +1,15 @@
 from flask import Flask, jsonify
 from flask_cors import CORS, cross_origin
-import os
 from dotenv import load_dotenv
-import requests
+import os
+from serpapi import GoogleSearch
 
-load_dotenv()  # Load environment variables from .env file
+load_dotenv()
 
-API_KEY = os.getenv('API_KEY')  # Get API key from environment variable
 app = Flask(__name__)
-# Allow CORS so that frontend can access backend served from different domains.
-CORS(app, resources={r'/*': {'origins': '*'}})
+CORS(app)  # Allow CORS so that frontend can access backend served from different domains.
+
+SERPAPI_KEY = os.getenv("SERPAPI_KEY")
 
 historical_prices = {
     "starbucks": 92.85,
@@ -29,57 +29,77 @@ historical_caps = {
     "sabra": 3237000000
 }
 
-def get_stock_price(symbol, date=None): # date format: YYYY-MM-DD
-    """Fetch stock price for a given symbol and date from Alpha Vantage."""
-    if date:
-        endpoint = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={API_KEY}'
-        response = requests.get(endpoint)
-        data = response.json()
-        print(data)
-        # Extract the closing price for the specified date
-        price = data['Time Series (Daily)'][date]['4. close']
-    else:
-        endpoint = f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={API_KEY}'
-        response = requests.get(endpoint)
-        data = response.json()
-        print(data)
-        # Extract the current price
-        price = data['Global Quote']['05. price']
-    
-    return float(price)
-
-
-@app.route('/stock_data/<company_name>')
-@cross_origin()  # This enables CORS specifically for this route
-def stock_data(company_name):
-    # Convert company_name to the correct format (e.g., capitalize)
-    company_name_formatted = company_name.capitalize()
-    # Map company names to their stock symbols
-    company_symbols = {
-        "starbucks": "SBUX",
-        "mcdonalds": "MCD",
-        "disney": "DIS",
-        "cocacola": "KO",
-        "pepsi": "PEP",
-        "sabra": "STRS"
+def get_current_stock_price(symbol):
+    """Fetch current stock price using SerpAPI Google Finance."""
+    params = {
+        "engine": "google_finance",
+        "q": symbol,
+        "hl": "en",
+        "api_key": SERPAPI_KEY
     }
 
-    company_name_formatted = company_name.lower()  # Assuming lowercase for keys
-    symbol = company_symbols.get(company_name_formatted)
+    try:
+        search = GoogleSearch(params)
+        results = search.get_dict()
+        summary = results.get('summary', {})
+        extracted_price = summary.get('extracted_price')
+        return float(extracted_price) if extracted_price is not None else None
+    except Exception as e:
+        print(f"Error fetching price for {symbol}: {e}")
+        return None
+
+def get_graph_data(symbol):
+    """Fetch historical stock data for graphing using SerpAPI."""
+    params = {
+        "engine": "google_finance",
+        "q": symbol,
+        "hl": "en",
+        "api_key": SERPAPI_KEY,
+        "window": "1M"  # Adjust the window parameter as needed
+    }
+
+    try:
+        search = GoogleSearch(params)
+        results = search.get_dict()
+        # Adjust this line based on the actual structure of the SerpAPI response
+        graph_data = results.get('graph', [])
+        return graph_data
+    except Exception as e:
+        print(f"Error fetching graph data for {symbol}: {e}")
+        return []
+
+@app.route('/stock_data/<company_name>')
+@cross_origin()
+def stock_data(company_name):
+    company_symbols = {
+        "starbucks": "SBUX:NASDAQ",
+        "mcdonalds": "MCD:NYSE",
+        "disney": "DIS:NYSE",
+        "cocacola": "KO:NYSE",
+        "pepsi": "PEP:NASDAQ",
+        "sabra": "SBRA:NASDAQ"
+    }
+    symbol = company_symbols.get(company_name.lower())
     if not symbol:
         return jsonify({"error": "Company not found"}), 404
 
     try:
-        current_price = get_stock_price(symbol)
-        historical_price = historical_prices.get(company_name_formatted)
-        market_cap = historical_caps.get(company_name_formatted)
-        price_difference = current_price - historical_price
+        current_price = get_current_stock_price(symbol)
+        if current_price is None:
+            raise ValueError(f"Current price for {company_name} not available")
+
+        historical_price = historical_prices[company_name.lower()]
+        market_cap = historical_caps[company_name.lower()]
+        price_difference = round(current_price - historical_price, 2)
+        graph_data = get_graph_data(symbol)
+
         return jsonify({
-            "company_name": company_name_formatted,
-            "current_price": current_price,
-            "historical_price": historical_price,
-            "market_cap": market_cap,
-            "price_difference": price_difference
+            "company_name": company_name.title(),
+            "current_price": '${:,.2f}'.format(current_price),
+            "historical_price": '${:,.2f}'.format(historical_price),
+            "market_cap": '${:,.2f}bn'.format(market_cap / 1_000_000_000),
+            "price_difference": '${:,.2f}'.format(price_difference),
+            "graph": graph_data
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500

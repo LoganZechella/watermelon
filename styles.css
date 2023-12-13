@@ -5,7 +5,7 @@ body {
 
 .dashboard {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
     max-width: 1000px;
     margin: auto;
