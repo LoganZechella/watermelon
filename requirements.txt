@@ -27,9 +27,6 @@ peewee==3.17.0
 py2app==0.28.6
 pyinstaller==6.2.0
 pyinstaller-hooks-contrib==2023.10
-PyQt5==5.15.10
-PyQt5-Qt5==5.15.11
-PyQt5-sip==12.13.0
 python-dateutil==2.8.2
 python-dotenv==1.0.0
 pytz==2023.3.post1
