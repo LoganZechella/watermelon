@@ -19,9 +19,7 @@ macholib==1.16.3
 MarkupSafe==2.1.3
 modulegraph==0.19.6
 multitasking==0.0.11
-netifaces==0.11.0
 packaging==23.2
-pandas==2.1.4
 peewee==3.17.0
 py2app==0.28.6
 pyinstaller==6.2.0
@@ -37,4 +35,3 @@ tzdata==2023.3
 urllib3==2.1.0
 webencodings==0.5.1
 Werkzeug==3.0.1
-yfinance==0.2.33
