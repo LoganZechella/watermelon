@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     async function renderChart(company) {
+        document.querySelector('.loading').style.display = 'none';
         const today = new Date().toDateString();
         const storedItem = localStorage.getItem(`stockData_${company}`);
         let data, lastUpdated;
@@ -99,7 +100,16 @@ document.addEventListener('DOMContentLoaded', async function () {
                         y: {
                             beginAtZero: false
                         }
-                    }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            display: false
+                        }
+                    },
+                    responsive: true
                 }
             });
         } else {
