@@ -1,3 +1,12 @@
+function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    const month = date.getMonth() + 1;  // getMonth() returns month from 0-11
+    const day = date.getDate();
+    const year = date.getFullYear().toString().substr(-2); // get last two digits of year
+    return `${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}-${year}`;
+};
+
+
 
 document.addEventListener('DOMContentLoaded', async function () {
     const companies = ["starbucks", "mcdonalds", "disney", "cocacola", "pepsi", "sabra"];
@@ -32,6 +41,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             console.log(`Data for ${company} already loaded`);
             data = JSON.parse(storedItem).data;
             updateTile(company, data);
+            document.getElementById(company).querySelector('.loading').style.display = 'none';
             return;
         }
 
@@ -40,6 +50,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             data = await response.json();
             localStorage.setItem(`stockData_${company}`, JSON.stringify({ data, lastUpdated: new Date().toDateString() }));
             updateTile(company, data);
+            document.getElementById(company).querySelector('.loading').style.display = 'none';
             console.log(`Data for ${company}:`, data); // For debugging
         } catch (error) {
             const tile = document.getElementById(company);
@@ -49,7 +60,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     async function renderChart(company) {
-        document.querySelector('.loading').style.display = 'none';
         const today = new Date().toDateString();
         const storedItem = localStorage.getItem(`stockData_${company}`);
         let data, lastUpdated;
@@ -86,7 +96,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: data.graph.map(item => item.date),
+                    labels: data.graph.map(item => formatDate(item.date)),
                     datasets: [{
                         label: `${company} Stock Price`,
                         data: data.graph.map(item => item.price),
@@ -98,7 +108,15 @@ document.addEventListener('DOMContentLoaded', async function () {
                 options: {
                     scales: {
                         y: {
-                            beginAtZero: false
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function (value, index, values) {
+                                    return '$' + value.toFixed(2);  // Format as USD
+                                }
+                            }
+                        },
+                        x: {
+                            
                         }
                     },
                     plugins: {

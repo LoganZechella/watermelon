@@ -9,9 +9,11 @@ body {
     grid-template-rows: repeat(2, 1fr);
     gap: 20px;
     max-width: 95vw;
-    height: 95vh;
+    height: auto;
     margin: 1em auto;
     padding: 20px;
+    overflow-x: scroll;
+    overflow-y: scroll;
 }
 
 .tile {
