@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
 
         try {
-            const response = await fetch(`http://127.0.0.1:5000/stock_data/${company}`);
+            const response = await fetch(`https://vast-castle-08505-c3727fd0181a.herokuapp.com/stock_data/${company}`);
             data = await response.json();
             localStorage.setItem(`stockData_${company}`, JSON.stringify({ data, lastUpdated: new Date().toDateString() }));
             updateTile(company, data);
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         if (!data) {
             try {
-                const response = await fetch(`http://127.0.0.1:5000/stock_data/${company}`);
+                const response = await fetch(`https://vast-castle-08505-c3727fd0181a.herokuapp.com/stock_data/${company}`);
                 const fetchedData = await response.json();
                 if (fetchedData && fetchedData.graph) {
                     data = fetchedData;
