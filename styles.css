@@ -1,8 +1,7 @@
 body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif, sans-serif;
+    margin: 0;
 }
-
-
 
 @media (max-width: 768px) {
     .dashboard {
@@ -37,8 +36,9 @@ body {
     }
 
     .map-iframe-mobile {
-        width: 90%;
+        width: 100%;
         min-height: auto;
+        margin: 0 0.5em 0 0.5em;
     }
 
     .map-iframe-desktop {
@@ -48,16 +48,28 @@ body {
 
 @media (min-width: 768px) {
     .dashboard {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(2, 1fr);
-        gap: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        /* For spacing between items */
         max-width: 95vw;
-        height: auto;
         margin: 1em auto;
         padding: 20px;
-        overflow-x: scroll;
-        overflow-y: scroll;
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+
+    .dashboard>div {
+        flex: 0 0 calc(33.333% - 20px);
+        /* Each child takes up a third of the width minus the gap */
+        height: calc(50% - 20px);
+        /* Assuming you want two rows, each child's height is set to half minus the gap */
+        margin-bottom: 20px;
+        /* To maintain the gap at the bottom */
+        width: 75%;
     }
 
     .map-iframe-desktop {
@@ -98,12 +110,65 @@ body {
     background-color: black;
 }
 
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.dashboard {
+    display: none;
+}
+
 .map {
     display: none;
     justify-content: stretch;
     min-width: 95vw;
     min-height: 90vh;
     margin: 0 0 1em 0;
+}
+
+#welcome {
+    text-align: center;
+    margin: -6em 0 1em 0;
+    padding: 0 0.5em 0 0.5em;
+}
+
+#welcome h1 {
+    color: black;
+    /* As part of the color scheme */
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+button {
+    background-color: red;
+    /* Primary button color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    /* Moderately rounded corners */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    /* Small glow effect */
+}
+
+button:disabled {
+    background-color: #ccc;
+    /* Disabled button color */
+    color: #666;
+    /* Disabled button text color */
 }
 
 

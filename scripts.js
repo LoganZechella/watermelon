@@ -15,7 +15,7 @@ burger.addEventListener('click', function () {
     header.classList.toggle('menu-opened');
 });
 
-function menuLoginToggle() {
+function menuMapToggle() {
     menuContainer.classList.toggle('menu-opened');
     if (!menuContainer.classList.contains('menu-opened')) {
         dashboardDiv.style.display = "none";
@@ -25,13 +25,44 @@ function menuLoginToggle() {
     }
 };
 
-// Go to Maps
+function menuDashToggle() {
+    menuContainer.classList.toggle('menu-opened');
+    if (!menuContainer.classList.contains('menu-opened')) {
+        dashboardDiv.style.display = "flex";
+        mapsDiv.style.display = "none";
+    } else {
+        setTimeout(menuLoginToggle, 800);
+    }
+};
+
+// Go to Maps (Dropdown Menu)
 
 var mapsBtn = document.getElementById("maps-btn");
 var dashboardDiv = document.getElementById("dashboard");
 
 mapsBtn.addEventListener('click', function () {
-    menuLoginToggle();
+    menuMapToggle();
+});
+
+// Go to Dashboard (Dropdown Menu)
+
+var dashBtn = document.getElementById("dash-btn");
+var dashboardDiv = document.getElementById("dashboard");
+
+dashBtn.addEventListener('click', function () {
+    menuDashToggle();
+});
+
+// Main Dashboard and Maps Buttons
+
+document.getElementById('dashboard-btn').addEventListener('click', function () {
+    document.querySelector('.main').style.display = 'none';
+    document.querySelector('.dashboard').style.display = 'flex';
+});
+
+document.getElementById('mainMaps-btn').addEventListener('click', function () {
+    document.querySelector('.main').style.display = 'none';
+    document.querySelector('.map').style.display = 'flex';
 });
 
 
