@@ -6,7 +6,36 @@ function formatDate(dateStr) {
     return `${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}-${year}`;
 };
 
+var burger = document.querySelector('.burger-container');
+var header = document.querySelector('.menu-container');
+const menuContainer = document.querySelector('.menu-container');
+var mapsDiv = document.getElementById("map");
 
+burger.addEventListener('click', function () {
+    header.classList.toggle('menu-opened');
+});
+
+function menuLoginToggle() {
+    menuContainer.classList.toggle('menu-opened');
+    if (!menuContainer.classList.contains('menu-opened')) {
+        dashboardDiv.style.display = "none";
+        mapsDiv.style.display = "flex";
+    } else {
+        setTimeout(menuLoginToggle, 800);
+    }
+};
+
+// Go to Maps
+
+var mapsBtn = document.getElementById("maps-btn");
+var dashboardDiv = document.getElementById("dashboard");
+
+mapsBtn.addEventListener('click', function () {
+    menuLoginToggle();
+});
+
+
+// Dashboard Content Pull
 
 document.addEventListener('DOMContentLoaded', async function () {
     const companies = ["starbucks", "mcdonalds", "disney", "cocacola", "pepsi", "sabra"];
