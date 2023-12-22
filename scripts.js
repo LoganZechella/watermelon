@@ -39,7 +39,7 @@ var burger = document.querySelector('.burger-container');
 var header = document.querySelector('.menu-container');
 const menuContainer = document.querySelector('.menu-container');
 var mainDiv = document.getElementById("main");
-var mapsDiv = document.getElementById("map");
+var mapsDiv = document.getElementById("maps");
 var dashboardDiv = document.getElementById("dashboard");
 
 burger.addEventListener('click', function () {
@@ -48,10 +48,20 @@ burger.addEventListener('click', function () {
 
 function menuMapToggle() {
     menuContainer.classList.toggle('menu-opened');
+    document.getElementById('wwii-map-btn').classList.toggle('animate__animated');
+    document.getElementById('wwii-map-btn').classList.toggle('animate__bounceOut');
+    document.getElementById('marine-map-btn').classList.toggle('animate__animated');
+    document.getElementById('marine-map-btn').classList.toggle('animate__bounceOut');
+    animateCSS('maps', 'fadeOut', '1000ms', '0ms');
     if (!menuContainer.classList.contains('menu-opened')) {
-        dashboardDiv.style.display = "none";
-        mainDiv.style.display = "none";
-        mapsDiv.style.display = "flex";
+        setTimeout(function () {
+            animateCSS('wwii-map-btn', 'bounceIn', '800ms', '800ms');
+            animateCSS('marine-map-btn', 'bounceIn', '800ms', '800ms');
+            mapsDiv.style.display = "none";
+            dashboardDiv.style.display = "none";
+            document.getElementById('main').style.display = 'flex';
+            document.getElementById('buttons-map-select').style.display = 'flex';
+        }, 800);
     } else {
         setTimeout(menuMapToggle, 800);
     }
@@ -98,8 +108,8 @@ dashBtn.addEventListener('click', function () {
 document.getElementById('dashboard-btn').addEventListener('click', function () {
     animateCSS('mainMaps-btn', 'bounceOut', '1000ms', '0ms');
     animateCSS('mainDash-btn', 'bounceOut', '1000ms', '0ms');
-    animateCSS('main', 'fadeOut', '1000ms', '1000ms')
-    setTimeout(function() {
+    animateCSS('main', 'fadeOut', '1000ms', '1000ms');
+    setTimeout(function () {
         animateCSS('dashboard', 'fadeIn', '1000ms', '100ms')
         document.querySelector('.main').style.display = 'none';
         document.querySelector('.dashboard').style.display = 'flex';
@@ -108,13 +118,44 @@ document.getElementById('dashboard-btn').addEventListener('click', function () {
 
 document.getElementById('mainMaps-btn').addEventListener('click', function () {
     animateCSS('mainMaps-btn', 'bounceOut', '1000ms', '0ms');
-    animateCSS('mainDash-btn', 'bounceOut', '1000ms', '0ms');
-    animateCSS('main', 'fadeOut', '1000ms', '1000ms')
-    setTimeout(function() {
-        animateCSS('map', 'fadeIn', '1000ms', '100ms')
-        document.querySelector('.map').style.display = 'flex';
-        document.querySelector('.main').style.display = 'none';
+    animateCSS('dashboard-btn', 'bounceOut', '1000ms', '0ms');
+    setTimeout(function () {
+        document.querySelector('.buttons').style.display = 'none';
+        animateCSS('wwii-map-btn', 'bounceIn', '1000ms', '0ms');
+        animateCSS('marine-map-btn', 'bounceIn', '1000ms', '0ms');
+        document.getElementById('buttons-map-select').style.display = 'flex';
+    }, 600);
+});
+
+document.getElementById('wwii-map-btn').addEventListener('click', function () {
+    animateCSS('wwii-map-btn', 'bounceOut', '1000ms', '0ms');
+    animateCSS('marine-map-btn', 'bounceOut', '1000ms', '0ms');
+    // animateCSS('buttons-map-select', 'bounceOut', '1000ms', '0ms');
+    setTimeout(function () {
+        animateCSS('maps', 'fadeIn', '1000ms', '100ms')
+        document.getElementById('maps').style.display = 'flex';
+        document.getElementById('marine-map').style.display = 'none';
+        document.getElementById('wwii-map').style.display = 'flex';
+        document.getElementById('main').style.display = 'none';
     }, 1000);
+    document.getElementById('wwii-map-btn').classList.toggle('animate__bounceOut');
+    document.getElementById('marine-map-btn').classList.toggle('animate__bounceOut');
+});
+
+document.getElementById('marine-map-btn').addEventListener('click', function () {
+    animateCSS('wwii-map-btn', 'bounceOut', '1000ms', '0ms');
+    animateCSS('marine-map-btn', 'bounceOut', '1000ms', '0ms');
+    // animateCSS('buttons-map-select', 'bounceIn', '1000ms', '0ms');
+    setTimeout(function () {
+        animateCSS('maps', 'fadeIn', '1000ms', '100ms')
+        document.querySelector('.maps').style.display = 'flex';
+        document.getElementById('marine-map').style.display = 'flex';
+        document.getElementById('wwii-map').style.display = 'none';
+        document.querySelector('.main').style.display = 'none';
+        document.getElementById('wwii-map-btn').classList.toggle('animate__bounceOut');
+        document.getElementById('marine-map-btn').classList.toggle('animate__bounceOut');
+    }, 1000);
+    
 });
 
 
@@ -230,7 +271,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                             }
                         },
                         x: {
-                            
+
                         }
                     },
                     plugins: {

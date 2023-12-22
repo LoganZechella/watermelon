@@ -36,13 +36,18 @@
 
     <main class="main" id="main">
         <div id="welcome">
-            
+
             <div class="buttons">
                 <button class="dashboard-btn" id="dashboard-btn" disabled>Dashboard</button>
                 <button class="mainMaps-btn" id="mainMaps-btn">Maps</button>
             </div>
+
+            <div class="buttons-map-select" id="buttons-map-select">
+                <button class="wwii-map-btn" id="wwii-map-btn">U.S. Military Involvement Since WWII</button>
+                <button class="marine-map-btn" id="marine-map-btn">Live Global Maritime Traffic</button>
+            </div>
         </div>
-        
+
     </main>
 
     <div class="dashboard" id="dashboard">
@@ -90,14 +95,24 @@
         </div>
     </div>
 
-    <div class="map" id="map">
-        <iframe class="map-iframe-desktop" id="map-iframe-desktop" src="https://www.textomap.com/?MzIzMjswOzE7MA==" frameBorder="0"></iframe>
-        <iframe class="map-iframe-mobile" id="map-iframe-mobile" src="https://www.textomap.com/?MzIzMjsxOzE7MA==" frameBorder="0"></iframe>
-    </div>
+    <div class="maps" id="maps">
+        <div class="wwii-map" id="wwii-map">
+            <iframe class="map-iframe-desktop" id="map-iframe-desktop" src="https://www.textomap.com/?MzIzMjswOzE7MA=="
+                frameBorder="0"></iframe>
+            <iframe class="map-iframe-mobile" id="map-iframe-mobile" src="https://www.textomap.com/?MzIzMjsxOzE7MA=="
+                frameBorder="0"></iframe>
+        </div>
 
+        <div class="marine-map" id="marine-map">
+            <iframe class="marine-map-iframe" id="marine-map-iframe"
+                src="https://www.marinetraffic.com/en/ais/embed/zoom:3/centery:36/centerx:23/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:/remember:false"
+                frameBorder="0"></iframe>
+        </div>
+    </div>
+    
     <script src="/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
 </body>
 
 </html>
