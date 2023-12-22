@@ -6,10 +6,41 @@ function formatDate(dateStr) {
     return `${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}-${year}`;
 };
 
+
+// Animations
+
+const animateCSS = (element, animation, duration = '0.5s', delay = '0.5s', prefix = 'animate__') =>
+    new Promise((resolve, reject) => {
+        const animationName = `${prefix}${animation}`;
+        const node = document.getElementById(element);
+
+        // Set the duration and delay of the animation using style.setProperty
+        node.style.setProperty('--animate-duration', duration);
+        node.style.setProperty('--animate-delay', delay);
+
+        node.classList.add(`${prefix}animated`, animationName);
+
+        // When the animation ends, we clean the classes and resolve the Promise
+        function handleAnimationEnd(event) {
+            event.stopPropagation();
+            node.classList.remove(`${prefix}animated`, animationName);
+            node.style.removeProperty('--animate-duration');
+            node.style.removeProperty('--animate-delay');
+            resolve('Animation ended');
+        }
+
+        node.addEventListener('animationend', handleAnimationEnd, { once: true });
+    });
+
+
+
+// Burger Menu    
 var burger = document.querySelector('.burger-container');
 var header = document.querySelector('.menu-container');
 const menuContainer = document.querySelector('.menu-container');
+var mainDiv = document.getElementById("main");
 var mapsDiv = document.getElementById("map");
+var dashboardDiv = document.getElementById("dashboard");
 
 burger.addEventListener('click', function () {
     header.classList.toggle('menu-opened');
@@ -19,9 +50,10 @@ function menuMapToggle() {
     menuContainer.classList.toggle('menu-opened');
     if (!menuContainer.classList.contains('menu-opened')) {
         dashboardDiv.style.display = "none";
+        mainDiv.style.display = "none";
         mapsDiv.style.display = "flex";
     } else {
-        setTimeout(menuLoginToggle, 800);
+        setTimeout(menuMapToggle, 800);
     }
 };
 
@@ -29,11 +61,19 @@ function menuDashToggle() {
     menuContainer.classList.toggle('menu-opened');
     if (!menuContainer.classList.contains('menu-opened')) {
         dashboardDiv.style.display = "flex";
+        mainDiv.style.display = "none";
         mapsDiv.style.display = "none";
+
     } else {
-        setTimeout(menuLoginToggle, 800);
+        setTimeout(menuDashToggle, 800);
     }
 };
+
+// document.getElementById('h1').addEventListener('click', function () {
+//     dashboardDiv.style.display = "none";
+//     mainDiv.style.display = "flex";
+//     mapsDiv.style.display = "none";
+// });
 
 // Go to Maps (Dropdown Menu)
 
@@ -56,14 +96,28 @@ dashBtn.addEventListener('click', function () {
 // Main Dashboard and Maps Buttons
 
 document.getElementById('dashboard-btn').addEventListener('click', function () {
-    document.querySelector('.main').style.display = 'none';
-    document.querySelector('.dashboard').style.display = 'flex';
+    animateCSS('mainMaps-btn', 'bounceOut', '1000ms', '0ms');
+    animateCSS('mainDash-btn', 'bounceOut', '1000ms', '0ms');
+    animateCSS('main', 'fadeOut', '1000ms', '1000ms')
+    setTimeout(function() {
+        animateCSS('dashboard', 'fadeIn', '1000ms', '100ms')
+        document.querySelector('.main').style.display = 'none';
+        document.querySelector('.dashboard').style.display = 'flex';
+    }, 1000);
 });
 
 document.getElementById('mainMaps-btn').addEventListener('click', function () {
-    document.querySelector('.main').style.display = 'none';
-    document.querySelector('.map').style.display = 'flex';
+    animateCSS('mainMaps-btn', 'bounceOut', '1000ms', '0ms');
+    animateCSS('mainDash-btn', 'bounceOut', '1000ms', '0ms');
+    animateCSS('main', 'fadeOut', '1000ms', '1000ms')
+    setTimeout(function() {
+        animateCSS('map', 'fadeIn', '1000ms', '100ms')
+        document.querySelector('.map').style.display = 'flex';
+        document.querySelector('.main').style.display = 'none';
+    }, 1000);
 });
+
+
 
 
 // Dashboard Content Pull

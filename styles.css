@@ -3,7 +3,13 @@ body {
     margin: 0;
 }
 
+/* Mobile */
 @media (max-width: 768px) {
+
+    #h1 {
+        margin: 0 0 0 0;
+    }
+
     .dashboard {
         display: flex;
         flex-wrap: wrap;
@@ -38,7 +44,7 @@ body {
     .map-iframe-mobile {
         width: 100%;
         min-height: auto;
-        margin: 0 0.5em 0 0.5em;
+        margin: 0.25em 0.5em 0 0.5em;
     }
 
     .map-iframe-desktop {
@@ -46,7 +52,13 @@ body {
     }
 }
 
+/* Desktop */
 @media (min-width: 768px) {
+
+    #h1 {
+        margin: 0 0 0 0;
+    }
+
     .dashboard {
         display: flex;
         flex-direction: column;
@@ -74,7 +86,7 @@ body {
 
     .map-iframe-desktop {
         width: 98%;
-        margin: 0 0.5em 0.5em 0.5em;
+        margin: 0.5em 0.5em 0.5em 0.5em;
     }
 
     .map-iframe-mobile {
@@ -82,6 +94,7 @@ body {
     }
 }
 
+/* General Formatting */ 
 
 .tile {
     background-color: #f0f0f0;
@@ -103,10 +116,11 @@ body {
 
 .header {
     display: flex;
+    flex-direction: row;
     position: sticky;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    padding: 0 0 0.5em 0;
     background-color: black;
 }
 
@@ -155,7 +169,6 @@ button {
     padding: 10px 20px;
     border-radius: 10px;
     /* Moderately rounded corners */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
@@ -177,10 +190,183 @@ button:disabled {
 
 
 
+
+
+
+
+/* Animations */
+
+/* Vanish in */
+.vanishIn {
+    animation-name: vanishIn;
+}
+
+@-webkit-keyframes vanishIn {
+    0% {
+        opacity: 0;
+        transform-origin: 50% 50%;
+        transform: scale(2, 2);
+        filter: blur(90px);
+    }
+
+    100% {
+        opacity: 1;
+        transform-origin: 50% 50%;
+        transform: scale(1, 1);
+        filter: blur(0px);
+    }
+}
+
+@keyframes vanishIn {
+    0% {
+        opacity: 0;
+        transform-origin: 50% 50%;
+        transform: scale(2, 2);
+        filter: blur(90px);
+    }
+
+    100% {
+        opacity: 1;
+        transform-origin: 50% 50%;
+        transform: scale(1, 1);
+        filter: blur(0px);
+    }
+}
+
+/* Vanish Out */
+.vanishOut {
+    animation-name: vanishOut;
+}
+
+@-webkit-keyframes vanishOut {
+    0% {
+        opacity: 1;
+        transform-origin: 50% 50%;
+        transform: scale(1, 1);
+        filter: blur(0px);
+    }
+
+    100% {
+        opacity: 0;
+        transform-origin: 50% 50%;
+        transform: scale(2, 2);
+        filter: blur(20px);
+    }
+}
+
+@keyframes vanishOut {
+    0% {
+        opacity: 1;
+        transform-origin: 50% 50%;
+        transform: scale(1, 1);
+        filter: blur(0px);
+    }
+
+    100% {
+        opacity: 0;
+        transform-origin: 50% 50%;
+        transform: scale(2, 2);
+        filter: blur(20px);
+    }
+}
+
+/* Puff In */
+.puffIn {
+    animation-name: puffIn;
+}
+
+@-webkit-keyframes puffIn {
+    0% {
+        opacity: 0;
+        transform-origin: 50% 50%;
+        transform: scale(2, 2);
+        filter: blur(2px);
+    }
+
+    100% {
+        opacity: 1;
+        transform-origin: 50% 50%;
+        transform: scale(1, 1);
+        filter: blur(0px);
+    }
+}
+
+@keyframes puffIn {
+    0% {
+        opacity: 0;
+        transform-origin: 50% 50%;
+        transform: scale(2, 2);
+        filter: blur(2px);
+    }
+
+    100% {
+        opacity: 1;
+        transform-origin: 50% 50%;
+        transform: scale(1, 1);
+        filter: blur(0px);
+    }
+}
+
+
+/* Puff Out */
+.puffOut {
+  animation-name: puffOut;
+}
+
+@-webkit-keyframes puffOut {
+  0% {
+    opacity: 1;
+    transform-origin: 50% 50%;
+    transform: scale(1, 1);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform-origin: 50% 50%;
+    transform: scale(2, 2);
+    filter: blur(2px);
+  }
+}
+
+@keyframes puffOut {
+  0% {
+    opacity: 1;
+    transform-origin: 50% 50%;
+    transform: scale(1, 1);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform-origin: 50% 50%;
+    transform: scale(2, 2);
+    filter: blur(2px);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Dropdown Menu */
 
 .dropdown-nav .menu-container {
-    position: relative;
+    position: absolute;
     display: block;
     top: 0;
     left: 0;
