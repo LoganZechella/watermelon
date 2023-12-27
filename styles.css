@@ -94,6 +94,7 @@ body {
 
     .map-iframe-desktop {
         width: 98%;
+        height: 90%;
         margin: 0.5em 0.5em 0.5em 0.5em;
     }
 
@@ -125,7 +126,7 @@ body {
 .header {
     display: flex;
     flex-direction: row;
-    position: sticky;
+    position: relative;
     justify-content: center;
     align-items: center;
     padding: 0 0 0.5em 0;
@@ -190,7 +191,7 @@ body {
     gap: 1em;
 }
 
-button {
+.btn-generic {
     background-color: red;
     /* Primary button color */
     color: white;
@@ -210,11 +211,24 @@ button:disabled {
     background-color: #ccc;
     /* Disabled button color */
     color: #666;
-    /* Disabled button text color */
+    /* Ddisabled button text color */
 }
 
+.back-btn {
+    width: 75px;
+    height: auto;
+    margin: 1em 1em 1em 1em;
+    font-size: 15px;
+    border: black solid 2px;
+    background-color: rgba(0, 0, 0, 0.907);
+    color: white;
+}
 
-
+.back-btn-div {
+    display: none;
+    /* display: block; */
+    /* top: -43vh; */
+}
 
 
 

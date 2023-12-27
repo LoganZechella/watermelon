@@ -103,16 +103,36 @@ dashBtn.addEventListener('click', function () {
     menuDashToggle();
 });
 
+// Back Button
+
+document.getElementById('back-btn').addEventListener('click', function () {
+    var chartsDiv = document.getElementById('charts');
+    var chartSelectDiv = document.getElementById('main');
+    var chartSelectBtns = document.getElementById('buttons-chart-select');
+    // Toggle visibility of chart selection and charts
+    if (chartsDiv.style.display === 'none') {
+        chartsDiv.style.display = 'flex';
+        chartSelectDiv.style.display = 'none';
+        chartSelectBtns.style.display = 'flex';
+    } else {
+        chartsDiv.style.display = 'none';
+        chartSelectDiv.style.display = 'flex';
+        chartSelectBtns.style.display = 'flex';
+    }
+});
+
 // Main Dashboard and Maps Buttons
 
 document.getElementById('dashboard-btn').addEventListener('click', function () {
     animateCSS('mainMaps-btn', 'bounceOut', '1000ms', '0ms');
     animateCSS('mainDash-btn', 'bounceOut', '1000ms', '0ms');
-    animateCSS('main', 'fadeOut', '1000ms', '1000ms');
+    animateCSS('welcome', 'fadeOut', '1000ms', '1000ms');
     setTimeout(function () {
         animateCSS('dashboard', 'fadeIn', '1000ms', '100ms')
-        document.querySelector('.main').style.display = 'none';
+        document.getElementById('welcome').style.display = 'none';
+        document.getElementById('main').style.height = 'auto';
         document.querySelector('.dashboard').style.display = 'flex';
+        document.getElementById('back-btn-div').style.display = 'block';
     }, 1000);
 });
 
@@ -124,8 +144,25 @@ document.getElementById('mainMaps-btn').addEventListener('click', function () {
         animateCSS('wwii-map-btn', 'bounceIn', '1000ms', '0ms');
         animateCSS('marine-map-btn', 'bounceIn', '1000ms', '0ms');
         document.getElementById('buttons-map-select').style.display = 'flex';
+        document.getElementById('back-btn-div').style.display = 'block';
     }, 600);
 });
+
+document.getElementById('mainCharts-btn').addEventListener('click', function () {
+    animateCSS('mainCharts-btn', 'bounceOut', '1000ms', '0ms');
+    animateCSS('mainMaps-btn', 'bounceOut', '1000ms', '0ms');
+    animateCSS('dashboard-btn', 'bounceOut', '1000ms', '0ms');
+    setTimeout(function () {
+        document.querySelector('.buttons').style.display = 'none';
+        animateCSS('defense-47-24-btn', 'bounceIn', '1000ms', '0ms');
+        animateCSS('healthcare-90-28-btn', 'bounceIn', '1000ms', '0ms');
+        document.getElementById('buttons-chart-select').style.display = 'flex';
+        document.getElementById('back-btn-div').style.display = 'block';
+        document.getElementById('back-btn-div').style.display = 'block';
+    }, 600);
+});
+
+// Maps Select Buttons 
 
 document.getElementById('wwii-map-btn').addEventListener('click', function () {
     animateCSS('wwii-map-btn', 'bounceOut', '1000ms', '0ms');
@@ -151,7 +188,7 @@ document.getElementById('marine-map-btn').addEventListener('click', function () 
         document.querySelector('.maps').style.display = 'flex';
         document.getElementById('marine-map').style.display = 'flex';
         document.getElementById('wwii-map').style.display = 'none';
-        document.querySelector('.main').style.display = 'none';
+        document.getElementById('main').style.display = 'none';
         document.getElementById('wwii-map-btn').classList.toggle('animate__bounceOut');
         document.getElementById('marine-map-btn').classList.toggle('animate__bounceOut');
     }, 1000);
@@ -159,11 +196,8 @@ document.getElementById('marine-map-btn').addEventListener('click', function () 
 });
 
 
-
-
 // Dashboard Content Pull
-
-document.addEventListener('DOMContentLoaded', async function () {
+async function loadDataAndRenderCharts() {
     const companies = ["starbucks", "mcdonalds", "disney", "cocacola", "pepsi", "sabra"];
 
     async function updateTile(company, data) {
@@ -294,4 +328,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         await fetchData(company);
         await renderChart(company);
     }
+}
+
+document.getElementById('dashboard-btn').addEventListener('click', loadDataAndRenderCharts);    
+
+document.getElementById('home-btn-link').addEventListener('click', function () {
+    window.location.href = 'index.html';
 });
