@@ -165,39 +165,47 @@ document.getElementById('mainCharts-btn').addEventListener('click', function () 
 // Maps Select Buttons 
 
 document.getElementById('wwii-map-btn').addEventListener('click', function () {
+    document.getElementById('wwii-map').innerHTML = `
+        <iframe class="map-iframe-desktop" id="map-iframe-desktop" src="https://www.textomap.com/?MzIzMjswOzE7MA==" frameborder="0">
+        </iframe>`;
     animateCSS('wwii-map-btn', 'bounceOut', '1000ms', '0ms');
     animateCSS('marine-map-btn', 'bounceOut', '1000ms', '0ms');
     // animateCSS('buttons-map-select', 'bounceOut', '1000ms', '0ms');
     setTimeout(function () {
-        animateCSS('maps', 'fadeIn', '1000ms', '100ms')
+        animateCSS('maps', 'fadeIn', '1000ms', '100ms');
+        
         document.getElementById('maps').style.display = 'flex';
         document.getElementById('marine-map').style.display = 'none';
         document.getElementById('wwii-map').style.display = 'flex';
         document.getElementById('main').style.display = 'none';
-    }, 1000);
-    document.getElementById('wwii-map-btn').classList.toggle('animate__bounceOut');
-    document.getElementById('marine-map-btn').classList.toggle('animate__bounceOut');
+    }, 600);
 });
 
 document.getElementById('marine-map-btn').addEventListener('click', function () {
+    document.getElementById('marine-map').innerHTML = `
+        <iframe class="marine-map-iframe" id="marine-map-iframe"
+            src="https://www.marinetraffic.com/en/ais/embed/zoom:3/centery:36/centerx:23/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:/remember:false"
+            frameBorder="0">
+        </iframe>`;
     animateCSS('wwii-map-btn', 'bounceOut', '1000ms', '0ms');
     animateCSS('marine-map-btn', 'bounceOut', '1000ms', '0ms');
     // animateCSS('buttons-map-select', 'bounceIn', '1000ms', '0ms');
     setTimeout(function () {
-        animateCSS('maps', 'fadeIn', '1000ms', '100ms')
+        animateCSS('maps', 'fadeIn', '1000ms', '100ms');
+        
         document.querySelector('.maps').style.display = 'flex';
         document.getElementById('marine-map').style.display = 'flex';
         document.getElementById('wwii-map').style.display = 'none';
         document.getElementById('main').style.display = 'none';
         document.getElementById('wwii-map-btn').classList.toggle('animate__bounceOut');
         document.getElementById('marine-map-btn').classList.toggle('animate__bounceOut');
-    }, 1000);
-    
+    }, 600);
+
 });
 
 
 // Dashboard Content Pull
-async function loadDataAndRenderCharts() {
+async function loadDataAndRenderDashboard() {
     const companies = ["starbucks", "mcdonalds", "disney", "cocacola", "pepsi", "sabra"];
 
     async function updateTile(company, data) {
@@ -330,7 +338,7 @@ async function loadDataAndRenderCharts() {
     }
 }
 
-document.getElementById('dashboard-btn').addEventListener('click', loadDataAndRenderCharts);    
+document.getElementById('dashboard-btn').addEventListener('click', loadDataAndRenderDashboard);
 
 document.getElementById('home-btn-link').addEventListener('click', function () {
     window.location.href = 'index.html';
